@@ -1,5 +1,7 @@
 const PLACEHOLDER = true;
 
+const NEWLINE = String.fromCharCode(10);
+
 const salon = {
     tagline: "A small ladies salon in Colombo 03, run by the same team since 2014.",
     address: "No. 42, Galle Road, Colombo 03, Sri Lanka",
@@ -113,10 +115,10 @@ function priceLines(catalogue, lang) {
 
 const TEXT = {
     location: {
-        en: "We are at {address}, {landmark}. Here is the map so you can find us easily: {maps}",
-        si: "අපි {address} — {landmark}. පහසුවෙන් හොයාගන්න පුළුවන් සිතියම මෙන්න: {maps}",
-        sien: "Api thiyenne {address}, {landmark}. Lesiyen hoyaganna map eka mehe: {maps}",
-        ta: "நாங்கள் {address}, {landmark}. வரைபடம் இதோ: {maps}",
+        en: "We are located at *{address}*, {landmark}. 📍\n\nGoogle Maps link: {maps}",
+        si: "අපගේ සැලූන් එක පිහිටා තියෙන්නේ *{address}* — {landmark}. 📍\n\nGoogle Maps සබැඳිය මෙන්න: {maps}",
+        sien: "Api inne *{address}* — {landmark}. 📍\n\nGoogle Maps link eka mehemai: {maps}",
+        ta: "நாங்கள் *{address}*, {landmark} இல் உள்ளோம். 📍\n\nவரைபட இணைப்பு: {maps}",
     },
     directions: {
         en: "{directions}",
@@ -125,79 +127,79 @@ const TEXT = {
         ta: "{directions}",
     },
     parking: {
-        en: "{parking}",
-        si: "{parking}",
-        sien: "{parking}",
-        ta: "{parking}",
+        en: "🚗 *Parking:* {parking}",
+        si: "🚗 *Parking:* ගොඩනැගිල්ල පිටුපස නොමිලේ වාහන 4ක් නැවැත්වීමට පහසුකම් ඇත. ගාලු පාරේ Meter Parking ද තියෙනවා. පිටුපස පිරී ඇත්නම්, විනාඩියක දුරින් Liberty Car Park එක තියෙනවා.",
+        sien: "🚗 *Parking:* Godanagilla pitipasse lane eke cars 4kata free park karanna puluwan. Galle Road eketh meter parking thiyenawa. Pitipasse full unoth, minithuwaka durin Liberty car park eka thiyenawa.",
+        ta: "🚗 *வாகன நிறுத்துமிடம்:* கட்டிடத்தின் பின்புறம் 4 கார்களை இலவசமாக நிறுத்தலாம். காலி வீதியிலும் பார்க்கிங் உள்ளது.",
     },
     hours: {
-        en: "We are open {weekdays}, and {saturday}. {sunday}. {lastBooking}",
-        si: "අපි විවෘතයි: {weekdays}, {saturday}. {sunday}. {lastBooking}",
-        sien: "Api open: {weekdays}, {saturday}. {sunday}. {lastBooking}",
-        ta: "நாங்கள் திறந்திருக்கிறோம்: {weekdays}, {saturday}. {sunday}. {lastBooking}",
+        en: "🕒 *Opening Hours:*\n{weekdays}\n{saturday}\n{sunday}\n{lastBooking}",
+        si: "🕒 *විවෘත වේලාවන්:*\n{weekdays}\n{saturday}\n{sunday}\n{lastBooking}",
+        sien: "🕒 *Ape open welawan:*\n{weekdays}\n{saturday}\n{sunday}\n{lastBooking}",
+        ta: "🕒 *திறந்திருக்கும் நேரங்கள்:*\n{weekdays}\n{saturday}\n{sunday}\n{lastBooking}",
     },
     contact: {
-        en: "You can call us on {phone}, or just keep chatting here on {whatsapp}. Email is {email} if that is easier.",
-        si: "ඔබට {phone} අමතන්න පුළුවන්, නැත්නම් මෙතනම {whatsapp} හරහා කතා කරන්න. Email එක {email}.",
-        sien: "Oyata {phone} ta call karanna puluwan, nathnam methanama {whatsapp} eken katha karanna. Email eka {email}.",
-        ta: "{phone} என்ற எண்ணில் அழைக்கலாம், அல்லது இங்கேயே {whatsapp} இல் தொடரலாம். மின்னஞ்சல் {email}.",
+        en: "📞 You can call us on *{phone}*, or chat with us right here on WhatsApp. Email: *{email}*",
+        si: "📞 ඔබට *{phone}* අංකයට කතා කරන්න පුළුවන්, නැත්නම් මෙතැනම WhatsApp හරහා කතා කරන්න. Email: *{email}*",
+        sien: "📞 Oyata *{phone}* ekata call karanna puluwan, nathnam methanama WhatsApp eken chat karanna. Email eka *{email}*",
+        ta: "📞 எங்களை *{phone}* என்ற எண்ணில் அழைக்கலாம், அல்லது இங்கேயே WhatsApp இல் தொடர்புகொள்ளலாம். மின்னஞ்சல்: *{email}*",
     },
     priceIntro: {
-        en: "Of course, here is what we charge:",
-        si: "අනිවාර්යයෙන්ම, අපේ ගාස්තු මෙන්න:",
-        sien: "Aniwaryen, ape gaana mehema:",
-        ta: "நிச்சயமாக, எங்கள் கட்டணங்கள் இதோ:",
+        en: "Of course! Here are our rates: 💳",
+        si: "අනිවාර්යයෙන්ම! අපගේ ගාස්තු මෙන්න: 💳",
+        sien: "Aniwaryenma! Ape rates mehemai: 💳",
+        ta: "நிச்சயமாக! எங்கள் கட்டண விபரம்: 💳",
     },
     priceNote: {
-        en: "Everything is paid at the salon after your treatment, and there is nothing to pay to reserve a time.",
-        si: "සියල්ල ප්‍රතිකාරයෙන් පසු සැලූන් එකේදී ගෙවන්න පුළුවන්. වෙලාවක් වෙන් කරන්න කලින් ගෙවීමක් නෑ.",
-        sien: "Hama dheyakma treatment eken passe salon eke gewanna puluwan. Welawak reserve karanna kalin gewanna one na.",
-        ta: "அனைத்தும் சிகிச்சைக்குப் பிறகு சலூனில் செலுத்தலாம். முன்பணம் தேவையில்லை.",
+        en: "✨ *Note:* All payments are made at the salon after your treatment. No advance payment is needed to book a slot.",
+        si: "✨ *සැලකිය යුතුයි:* සියලුම ගෙවීම් ප්‍රතිකාරයෙන් පසුව සැලූන් එකේදීම සිදු කළ හැක. Booking එකක් දාන්න කලින් මුදල් ගෙවීමක් අවශ්‍ය නැත.",
+        sien: "✨ *Note:* Payment okkoma treatment eken passe salon ekedi karanna puluwan. Booking ekak danna advance gewanna one na.",
+        ta: "✨ *குறிப்பு:* சிகிச்சைக்குப் பிறகே கட்டணம் செலுத்த வேண்டும். முன்பணம் எதுவும் தேவையில்லை.",
     },
     aftercare: {
-        en: "Here is what we usually suggest afterwards. {aftercare}",
-        si: "ප්‍රතිකාරයෙන් පසු අපි සාමාන්‍යයෙන් නිර්දේශ කරන්නේ මෙයයි. {aftercare}",
-        sien: "Treatment eken passe api samanyayen kiyanne mehemai. {aftercare}",
-        ta: "சிகிச்சைக்குப் பிறகு நாங்கள் பரிந்துரைப்பது இதுதான். {aftercare}",
+        en: "Here is what we recommend after your treatment:\n{aftercare} 🌿",
+        si: "හොඳම ප්‍රතිඵල සඳහා ප්‍රතිකාරයෙන් පසු අප නිර්දේශ කරන්නේ මේවායි:\n{aftercare} 🌿",
+        sien: "Treatment eken passe hondama results ganna api recommend karanne mehema:\n{aftercare} 🌿",
+        ta: "சிகிச்சைக்குப் பிறகு நாங்கள் பரிந்துரைப்பது:\n{aftercare} 🌿",
     },
     cancellation: {
-        en: "That is no trouble at all. {cancellation} {lateness}",
-        si: "ඒක කිසිම කරදරයක් නෑ. {cancellation} {lateness}",
-        sien: "Eka kisima prashnayak na. {cancellation} {lateness}",
-        ta: "அது எந்தப் பிரச்சினையும் இல்லை. {cancellation} {lateness}",
+        en: "That is completely fine. ✨\n\n{cancellation} {lateness}",
+        si: "කිසි ප්‍රශ්නයක් නැහැ. ✨\n\nBooking එකක් Cancel කරන්න හෝ දිනය වෙනස් කරන්න අවශ්‍ය නම්, කරුණාකර අවම වශයෙන් පැය 4කට පෙර අපට දන්වන්න. විනාඩි 15කට වඩා ප්‍රමාද වුවහොත්, ප්‍රතිකාරය කෙටි කිරීමට හෝ වෙනත් වෙලාවකට මාරු කිරීමට සිදු විය හැක.",
+        sien: "Kisima awlak na. ✨\n\nBooking ekak cancel karanna hari date eka wenas karanna hari ona nam, aduma paya 4kata kalinwath kiyanna. Miniththu 15kata wada parakku unoth, treatment eka keti karanna hari wena welawakata daanna hari wenna puluwan.",
+        ta: "எந்தப் பிரச்சினையும் இல்லை. ✨\n\nமுன்பதிவை ரத்து செய்ய அல்லது மாற்ற குறைந்தது 4 மணி நேரத்திற்கு முன் தெரிவிக்கவும். 15 நிமிடங்களுக்கு மேல் தாமதமானால் நேரத்தை மாற்ற வேண்டியிருக்கலாம்.",
     },
     payment: {
-        en: "{payment} {deposits}",
-        si: "{payment} {deposits}",
-        sien: "{payment} {deposits}",
-        ta: "{payment} {deposits}",
+        en: "💳 *Payments:* {payment} {deposits}",
+        si: "💳 *ගෙවීම් ක්‍රම:* Cash, Visa සහ Mastercard මඟින් ගෙවිය හැක. කලින් Advance ගෙවීම් අවශ්‍ය නැත — ප්‍රතිකාරයෙන් පසුව සැලූන් එකේදීම ගෙවිය හැක.",
+        sien: "💳 *Payments:* Cash, Visa, saha Mastercard puluwan. Advance gewanna ona na — treatment eken passe salon ekedima gewanna puluwan.",
+        ta: "💳 *கட்டண முறைகள்:* பணம், Visa மற்றும் Mastercard ஏற்கப்படும். முன்பணம் தேவையில்லை — சிகிச்சைக்குப் பின் செலுத்தலாம்.",
     },
     walkin: {
         en: "{walkIns} {arrival}",
-        si: "{walkIns} {arrival}",
-        sien: "{walkIns} {arrival}",
-        ta: "{walkIns} {arrival}",
+        si: "වෙලාවක් නිදහස්ව තිබුණොත් කෙලින්ම ඇවිත් කරගන්නත් පුළුවන්, නමුත් කලින් Appointment එකක් දාගෙන පැමිණීම වඩාත් පහසුයි. ඔබගේ වෙලාවට විනාඩි 5-10කට පෙර එන්න පුළුවන් නම් වඩාත් හොඳයි. ⏳",
+        sien: "Welawak free thibunoth kelinma awith karaganna puluwan, eth kalin book karagena ena eka godak lesiyi. Oyage welawata miniththu 5-10kata kalin awoth hondatama athi. ⏳",
+        ta: "இடம் இருந்தால் நேரடியாக வரலாம், ஆனால் முன்பதிவு செய்வது நல்லது. நேரத்திற்கு 5-10 நிமிடங்கள் முன்னதாக வரவும். ⏳",
     },
 };
 
 const OFFER = {
     withService: {
-        en: "Would you like me to reserve a spot for your {service}? Today or tomorrow both have openings.",
-        si: "ඔබට {service} සඳහා වෙලාවක් වෙන් කරන්නද? අද සහ හෙට දෙකේම වෙලාවන් තියෙනවා.",
-        sien: "Oyata {service} ekakata welawak reserve karannada? Adath hetath dekema welawal thiyenawa.",
-        ta: "உங்களுக்கு {service} க்கு ஒரு நேரத்தை பதிவு செய்யட்டுமா? இன்றும் நாளையும் இடம் உள்ளது.",
+        en: "Would you like me to reserve a spot for your *{service}*? Today or tomorrow both have openings. 📅",
+        si: "මම ඔබට *{service}* සඳහා වෙලාවක් වෙන් කරන්නද? අද සහ හෙට දෙකේම slots තියෙනවා. 📅",
+        sien: "Mama oyata *{service}* ekata welawak reserve karala dennada? Adath hetath dekema slots thiyenawa. 📅",
+        ta: "உங்களுக்கு *{service}* க்கு நேரம் பதிவு செய்யட்டுமா? இன்றும் நாளையும் இடங்கள் உள்ளன. 📅",
     },
     withoutService: {
-        en: "Would you like me to book something in for you? Just tell me which treatment and I will find you a time.",
-        si: "ඔබට යමක් වෙන් කරන්නද? මොන ප්‍රතිකාරයද කියන්න, මම වෙලාවක් හොයන්නම්.",
-        sien: "Oyata mokak hari book karannada? Mona treatment ekada kiyanna, mama welawak hoyannam.",
-        ta: "உங்களுக்கு ஏதாவது பதிவு செய்யட்டுமா? எந்த சிகிச்சை என்று சொல்லுங்கள், நேரம் பார்க்கிறேன்.",
+        en: "Would you like to book an appointment? Just let me know which treatment, and I'll find a time for you. ✨",
+        si: "ඔබට Appointment එකක් දාගන්න අවශ්‍යද? මොන සේවාවද කියලා කිව්වොත් මම හොඳ වෙලාවක් බලලා දෙන්නම්. ✨",
+        sien: "Oyata appointment ekak daaganna onada? Mona service ekada kiyanna, mama free welawak balala dennam. ✨",
+        ta: "முன்பதிவு செய்ய விரும்புகிறீர்களா? எந்த சிகிச்சை என்று சொல்லுங்கள், நேரம் பார்க்கிறேன். ✨",
     },
     midFlow: {
-        en: "Shall we carry on with your booking?",
-        si: "අපි ඔබේ වෙන් කිරීම දිගටම කරගෙන යමුද?",
-        sien: "Api oyage booking eka digatama karamuda?",
-        ta: "உங்கள் பதிவைத் தொடரலாமா?",
+        en: "Shall we carry on with your booking? 💇‍♀️",
+        si: "අපි ඔබේ Booking එක දිගටම කරගෙන යමුද? 💇‍♀️",
+        sien: "Api oyage booking eka digatama karagena yamuda? 💇‍♀️",
+        ta: "முன்பதிவைத் தொடரலாமா? 💇‍♀️",
     },
 };
 
@@ -211,12 +213,21 @@ function fill(template, values) {
 
 function topicAnswer(topic, lang, catalogue, about) {
     if (topic === "location") {
-        const base = fill(pick(TEXT.location, lang), {
+        const filled = fill(pick(TEXT.location, lang), {
             address: salon.address,
             landmark: salon.landmark,
             maps: salon.mapsUrl,
         });
-        return base + " " + salon.directions;
+
+        const blank = NEWLINE + NEWLINE;
+        const split = filled.indexOf(blank);
+        if (split === -1) return filled;
+
+        const intro = filled.slice(0, split);
+        const mapsLine = filled.slice(split + blank.length);
+        const spoken = lang === "en" || lang === "sien" ? intro + " " + salon.directions : intro;
+
+        return spoken + blank + mapsLine;
     }
 
     if (topic === "parking") return fill(pick(TEXT.parking, lang), { parking: salon.parking });

@@ -67,7 +67,9 @@ async function run() {
 
     check(
         "knowledge base durations are taken from the database",
-        knowledgeLines(catalogue).includes("Facial lasts 60 minutes") ? null : "duration not sourced from the catalogue",
+        knowledgeLines(catalogue).includes("Facial costs 5,500 rupees and lasts 60 minutes")
+            ? null
+            : "duration not sourced from the catalogue",
     );
 
     mockModel("A facial with us takes about 60 minutes from start to finish.");
@@ -105,8 +107,14 @@ async function run() {
         lastPrompt.includes("Never state or invent appointment availability") ? null : "availability guard missing",
     );
     check(
-        "the prompt forbids inventing prices",
-        lastPrompt.includes("Never invent prices") ? null : "price guard missing",
+        "the prompt carries the real prices and forbids guessing them",
+        lastPrompt.includes("5,500 rupees") && lastPrompt.includes("never round or guess")
+            ? null
+            : "price grounding missing",
+    );
+    check(
+        "the prompt carries the Google Maps link",
+        lastPrompt.includes("maps.google.com") ? null : "maps link missing",
     );
     check(
         "the prompt asks for one or two sentences",

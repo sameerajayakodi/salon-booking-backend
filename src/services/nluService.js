@@ -38,6 +38,7 @@ const PERIOD_WORDS = {
     noon: "AFTERNOON", afternoon: "AFTERNOON", "දවල්": "AFTERNOON", dawal: "AFTERNOON",
     pagal: "AFTERNOON", "மதியம்": "AFTERNOON",
     "හවස": "LATE", hawasa: "LATE", hawaha: "LATE", maalai: "LATE", "மாலை": "LATE",
+    am: "AM", pm: "PM",
     evening: "EVENING", night: "EVENING", "රාත්‍රී": "EVENING", raa: "EVENING", "இரவு": "EVENING",
 };
 
@@ -111,7 +112,7 @@ const GREETING_WORDS = new Set([
     "hey", "heyy", "hai ban", "hi there", "hello there", "hey there",
     "good morning", "good afternoon", "good evening", "good day",
     "ayubowan", "ayubowan!", "aayubowan", "vanakkam", "start", "hi hi",
-    "ආයුබොවන්", "හලෝ", "வணக்கம்",
+    "ආයුබොවන්", "ආයුබෝවන්", "හලෝ", "හායි", "හෙලෝ", "வணக்கம்", "ஹலோ",
 ]);
 
 const QUESTION_OPENERS = [
@@ -504,6 +505,8 @@ const TOPIC_PATTERNS = [
         "payment method", "how do i pay", "how can i pay", "how to pay",
         "do you accept card", "accept cards", "card payment", "credit card",
         "debit card", "visa", "mastercard", "master card", "cash only",
+        "pay by card", "pay by cash", "by card", "with card", "card only",
+        "take card", "cards accepted", "accept cash", "pay with",
         "take cash", "deposit", "advance payment", "pay in advance", "pay online",
         "gewanne kohomada", "ගෙවීම", "பணம் செலுத்த",
     ] },

@@ -416,9 +416,90 @@ const EDGE_CASES = [
         assert: (keys) => (keys[keys.length - 1] === "ask_name" ? null : `expected ask_name, got ${keys[keys.length - 1]}`),
     },
     {
-        name: "EDGE · price question is answered, not guessed",
+        name: "KB · a price question quotes the real price list",
         steps: ["hi", "i want know about price list"],
-        assert: (keys) => (keys[keys.length - 1] === "price_info" ? null : `expected price_info, got ${keys[keys.length - 1]}`),
+        assert: (keys, results) => {
+            const reply = results[results.length - 1].reply;
+            if (keys[keys.length - 1] !== "kb_answer") return `expected kb_answer, got ${keys[keys.length - 1]}`;
+            if (!reply.includes("5,500")) return "the Facial price is missing";
+            if (!reply.includes("2,500")) return "the Haircut price is missing";
+            return null;
+        },
+    },
+    {
+        name: "KB · one service price answers for that service only",
+        steps: ["how much is a facial"],
+        assert: (keys, results) => {
+            const reply = results[results.length - 1].reply;
+            if (!reply.includes("5,500")) return "the Facial price is missing";
+            if (reply.includes("2,500")) return "it listed unrelated services";
+            return null;
+        },
+    },
+    {
+        name: "KB · directions include the Google Maps link",
+        steps: ["where are you located?"],
+        assert: (keys, results) => {
+            const reply = results[results.length - 1].reply;
+            if (!reply.includes("maps.google.com")) return "no maps link";
+            if (!reply.includes("Galle Road")) return "no address";
+            return null;
+        },
+    },
+    {
+        name: "KB · every answer offers to book",
+        steps: ["is there parking?", "what time do you open", "can i pay by card", "can i just walk in"],
+        assert: (keys, results) => {
+            const missing = results.filter((r) => !/book|reserve/i.test(r.reply));
+            return missing.length ? `${missing.length} answer(s) did not offer a booking` : null;
+        },
+    },
+    {
+        name: "KB · a question never loops the engine",
+        steps: ["where are you", "where are you", "where are you", "where are you"],
+        assert: (keys) => (keys.every((k) => k === "kb_answer") ? null : `engine drifted: ${keys.join(", ")}`),
+    },
+    {
+        name: "BRIDGE · yes after a price answer starts the booking",
+        steps: ["how much is a facial", "yes, lets book"],
+        assert: (keys) => (keys[keys.length - 1] === "ask_date" ? null : `expected ask_date, got ${keys[keys.length - 1]}`),
+    },
+    {
+        name: "BRIDGE · a full booking after a concierge answer",
+        steps: ["how much is a haircut", "yes please", "tomorrow", "1", "Dilini", "Confirm"],
+        assert: (keys, results) => {
+            const last = results[results.length - 1];
+            if (keys[keys.length - 1] !== "booked") return `expected booked, got ${keys[keys.length - 1]}`;
+            if (!last.booking || last.booking.service.name !== "Haircut") return "the wrong service was booked";
+            return null;
+        },
+    },
+    {
+        name: "BRIDGE · a question mid-flow keeps the offered times",
+        steps: ["Facial", "tomorrow", "is there parking?", "1", "Dilini"],
+        assert: (keys) => (keys[keys.length - 1] === "summary" ? null : `expected summary, got ${keys[keys.length - 1]}`),
+    },
+    {
+        name: "KB · Singlish gets a Singlish answer",
+        steps: ["ayubowan", "salon eka koheda thiyenne?"],
+        assert: (keys, results) => {
+            const last = results[results.length - 1];
+            if (last.lang !== "sien") return `answered in ${last.lang}, not Singlish`;
+            return /maps\.google\.com/.test(last.reply) ? null : "the maps link is missing";
+        },
+    },
+    {
+        name: "KB · Sinhala gets a Sinhala answer",
+        steps: ["\u0d86\u0dba\u0dd4\u0db6\u0ddd\u0dc0\u0db1\u0dca", "\u0db4\u0dcf\u0dbb\u0dca\u0d9a\u0dd2\u0db1\u0dca \u0dad\u0dd2\u0dba\u0dd9\u0db1\u0dc0\u0daf?"],
+        assert: (keys, results) => {
+            const reply = results[results.length - 1].reply;
+            return /[\u0d80-\u0dff]/.test(reply) ? null : "the answer was not in Sinhala";
+        },
+    },
+    {
+        name: "KB · a Sinhala greeting is a greeting",
+        steps: ["\u0d86\u0dba\u0dd4\u0db6\u0ddd\u0dc0\u0db1\u0dca"],
+        assert: (keys) => (keys[0] === "greeting" ? null : `expected greeting, got ${keys[0]}`),
     },
     {
         name: "EDGE · another service reopens the menu",

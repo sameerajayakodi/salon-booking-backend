@@ -32,6 +32,8 @@ const PERIOD = Object.freeze({
     AFTERNOON: [720, 1019],
     EVENING: [1020, 1439],
     LATE: [780, 1439],
+    AM: [0, 719],
+    PM: [720, 1439],
 });
 
 const WEEKDAY_LABELS = Object.freeze([
