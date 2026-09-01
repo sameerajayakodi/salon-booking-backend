@@ -433,6 +433,20 @@ const EDGE_CASES = [
         },
     },
     {
+        name: "TYPO · a misspelt service still resolves",
+        steps: ["fasial", "tomorrow"],
+        assert: (keys) => (keys[keys.length - 1] === "ask_time" ? null : `expected ask_time, got ${keys[keys.length - 1]}`),
+    },
+    {
+        name: "TYPO · a customer name is never read as a service",
+        steps: ["Haircut", "tomorrow", "1", "Amali", "Confirm"],
+        assert: (keys, results) => {
+            const last = results[results.length - 1];
+            if (keys[keys.length - 1] !== "booked") return `expected booked, got ${keys[keys.length - 1]}`;
+            return last.booking.service.name === "Haircut" ? null : `service drifted to ${last.booking.service.name}`;
+        },
+    },
+    {
         name: "KB · a compound question answers every part",
         steps: ["Where are you located and how much is a facial?"],
         assert: (keys, results) => {

@@ -440,7 +440,7 @@ ${body}` : body;
         const requested = formatDateLong(draft.date);
         draft.date = null;
         draft.startMin = null;
-        return respond("date_too_far", { date: requested, days: config.salon.bookingHorizonDays }, "date");
+        return respond("date_too_far", { service: service.name, date: requested, days: config.salon.bookingHorizonDays }, "date");
     }
 
     const open = await listAvailability(draft.serviceId, draft.date, nlu.period);

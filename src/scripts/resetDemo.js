@@ -70,13 +70,13 @@ const SERVICES = [
     {
         name: "Bridal Makeup",
         durationMin: 180,
-        aliases: ["bridal", "bridal makeup", "wedding makeup", "bride", "manali", "මනාලි සැරසීම", "මනාලි", "විවාහ මේකප්", "மணப்பெண்", "மணமகள் ஒப்பனை"],
+        aliases: ["bridal", "bridal makeup", "wedding makeup", "bride", "manaali sarasima", "මනාලි සැරසීම", "මනාලි", "විවාහ මේකප්", "மணப்பெண்", "மணமகள் ஒப்பனை"],
         weekly: weeklyFrom([540, 840]),
     },
     {
         name: "Party Makeup",
         durationMin: 60,
-        aliases: ["party makeup", "makeup", "make up", "make-up", "occasion makeup", "evening makeup", "මේකප්", "සාද මේකප්", "ஒப்பனை", "மேக்கப்"],
+        aliases: ["party makeup", "occasion makeup", "evening makeup", "night makeup", "function makeup", "මේකප්", "සාද මේකප්", "ஒப்பனை", "மேக்கப்"],
         weekly: weeklyFrom([600, 660, 900, 960]),
     },
 ];

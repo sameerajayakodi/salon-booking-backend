@@ -15,7 +15,10 @@ const SINGLISH_MARKERS = [
     "karanna", "karaganna", "puluwanda", "mokakda", "monawada", "dawasak", "welawa",
     "welawak", "oney", "hari", "hondai", "kohomada", "thiyenawada", "denna",
     "mata", "oyata", "ganna", "balanna", "nathi", "naththam",
+    "ayubowan", "aayubowan", "ayubowen", "subha", "istuti", "sthuthi",
 ];
+
+const TAMIL_MARKERS = ["vanakkam", "nandri", "vanakam"];
 
 const DAY_WORDS = {
     "today": 0, "අද": 0, "adha": 0, "ada": 0, "indru": 0, "இன்று": 0,
@@ -150,8 +153,42 @@ function detectLanguage(text) {
     if (TAMIL_SCRIPT.test(text)) return "ta";
 
     const words = text.toLowerCase().split(/[^a-z]+/).filter(Boolean);
+    if (words.some((w) => TAMIL_MARKERS.includes(w))) return "ta";
+
     const hits = words.filter((w) => SINGLISH_MARKERS.includes(w)).length;
     return hits > 0 ? "sien" : null;
+}
+
+const SERVICE_FUZZY_MIN_LENGTH = 5;
+const SERVICE_FUZZY_MAX_DISTANCE = 2;
+
+function fuzzyService(haystack, services) {
+    const words = haystack.split(/[^\p{L}\p{M}]+/u).filter((w) => w.length >= SERVICE_FUZZY_MIN_LENGTH);
+    if (!words.length) return null;
+
+    let best = null;
+    let bestDistance = SERVICE_FUZZY_MAX_DISTANCE + 1;
+
+    for (const service of services) {
+        for (const candidate of [service.name, ...(service.aliases || [])]) {
+            const needle = String(candidate).toLowerCase().trim();
+            if (needle.length < SERVICE_FUZZY_MIN_LENGTH || needle.includes(" ")) continue;
+
+            for (const word of words) {
+                if (word.charAt(0) !== needle.charAt(0)) continue;
+
+                const allowed = word.length >= 7 ? SERVICE_FUZZY_MAX_DISTANCE : 1;
+                const distance = levenshtein(word, needle);
+
+                if (distance < bestDistance && distance <= allowed) {
+                    best = service;
+                    bestDistance = distance;
+                }
+            }
+        }
+    }
+
+    return best;
 }
 
 function matchService(text, services) {
@@ -171,7 +208,7 @@ function matchService(text, services) {
         }
     }
 
-    return best;
+    return best || fuzzyService(haystack, services);
 }
 
 const MONTH_NAMES = [
