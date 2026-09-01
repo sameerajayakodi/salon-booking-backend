@@ -416,6 +416,18 @@ const EDGE_CASES = [
         assert: (keys) => (keys[keys.length - 1] === "ask_name" ? null : `expected ask_name, got ${keys[keys.length - 1]}`),
     },
     {
+        name: "BOOKED · the confirmation carries the booking reference",
+        steps: ["Haircut", "tomorrow", "1", "Amali", "Confirm"],
+        assert: (keys, results) => {
+            const last = results[results.length - 1];
+            if (keys[keys.length - 1] !== "booked") return `expected booked, got ${keys[keys.length - 1]}`;
+            if (!last.booking || !last.booking.reference) return "no reference in the payload";
+            return last.reply.includes(last.booking.reference)
+                ? null
+                : `reply is missing ${last.booking.reference}`;
+        },
+    },
+    {
         name: "KB · a price question quotes the real price list",
         steps: ["hi", "i want know about price list"],
         assert: (keys, results) => {

@@ -123,10 +123,10 @@ const TEMPLATES = {
     },
 
     booked: {
-        en: "🎉 *All done, your appointment is confirmed!*\n\n💇 *Service:* {service}\n📅 *Date:* {date}\n⏰ *Time:* {time}\n\nWe look forward to seeing you at {salon}. Thank you!",
-        si: "🎉 *ඔබේ Appointment එක සාර්ථකව වෙන් කරගත්තා!*\n\n💇 *සේවාව:* {service}\n📅 *දිනය:* {date}\n⏰ *වේලාව:* {time}\n\n{salon} වෙතින් ඔබව හමුවනතුරු බලා සිටිමු. ස්තූතියි! ✨",
-        ta: "🎉 *உங்கள் முன்பதிவு உறுதி செய்யப்பட்டது!*\n\n💇 *சேவை:* {service}\n📅 *தேதி:* {date}\n⏰ *நேரம்:* {time}\n\n{salon} இல் உங்களைச் சந்திக்க ஆவலுடன் காத்திருக்கிறோம். நன்றி! ✨",
-        sien: "🎉 *Oyage appointment eka confirm una!*\n\n💇 *Service:* {service}\n📅 *Date:* {date}\n⏰ *Time:* {time}\n\n{salon} ekata oyawa sadarayen piligannawa. Bohoma sthuthiyi! ✨",
+        en: "🎉 *All done, your appointment is confirmed!*\n\n🔖 *Booking No:* {reference}\n💇 *Service:* {service}\n📅 *Date:* {date}\n⏰ *Time:* {time}\n\nWe look forward to seeing you at {salon}. Thank you!",
+        si: "🎉 *ඔබේ Appointment එක සාර්ථකව වෙන් කරගත්තා!*\n\n🔖 *Booking No:* {reference}\n💇 *සේවාව:* {service}\n📅 *දිනය:* {date}\n⏰ *වේලාව:* {time}\n\n{salon} වෙතින් ඔබව හමුවනතුරු බලා සිටිමු. ස්තූතියි! ✨",
+        ta: "🎉 *உங்கள் முன்பதிவு உறுதி செய்யப்பட்டது!*\n\n🔖 *Booking No:* {reference}\n💇 *சேவை:* {service}\n📅 *தேதி:* {date}\n⏰ *நேரம்:* {time}\n\n{salon} இல் உங்களைச் சந்திக்க ஆவலுடன் காத்திருக்கிறோம். நன்றி! ✨",
+        sien: "🎉 *Oyage appointment eka confirm una!*\n\n🔖 *Booking No:* {reference}\n💇 *Service:* {service}\n📅 *Date:* {date}\n⏰ *Time:* {time}\n\n{salon} ekata oyawa sadarayen piligannawa. Bohoma sthuthiyi! ✨",
     },
 
     cancelled: {

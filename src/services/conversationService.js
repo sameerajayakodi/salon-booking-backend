@@ -510,14 +510,15 @@ ${body}` : body;
         return offerTimes(service, alternatives, "slot_taken", { time: requested });
     }
 
+    const full = await findBooking(booking.id);
+    const payload = bookingPayload(full, config.salon.timezone);
+
     const confirmed = {
+        reference: payload.reference,
         service: service.name,
         date: formatDateLong(draft.date),
         time: minutesToLabel(draft.startMin),
     };
-
-    const full = await findBooking(booking.id);
-    const payload = bookingPayload(full, config.salon.timezone);
 
     Object.assign(draft, EMPTY_DRAFT);
     return respond("booked", confirmed, null, { bookingId: booking.id, booking: payload });
