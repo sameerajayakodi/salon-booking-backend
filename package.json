@@ -1,0 +1,41 @@
+{
+  "name": "salon-booking-backend",
+  "version": "1.0.0",
+  "private": true,
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "migrate": "prisma migrate dev",
+    "migrate:deploy": "prisma migrate deploy",
+    "studio": "prisma studio",
+    "seed": "node src/scripts/seed.js",
+    "reset": "node src/scripts/resetDemo.js",
+    "check:flow": "node src/scripts/flowCheck.js",
+    "check:nlu": "node src/scripts/nluCheck.js",
+    "check:race": "node src/scripts/raceCheck.js",
+    "check:interceptor": "node src/scripts/interceptorCheck.js",
+    "check:gemini": "node src/scripts/geminiCheck.js",
+    "check:agent": "node src/scripts/agentCheck.js",
+    "check:all": "npm run check:agent && npm run check:flow && npm run check:interceptor && npm run check:nlu && npm run check:gemini && npm run check:race"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "morgan": "^1.10.0",
+    "mysql2": "^3.11.5",
+    "sequelize": "^6.37.5",
+    "winston": "^3.19.0",
+    "winston-daily-rotate-file": "^5.0.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9",
+    "prisma": "^6.2.1"
+  }
+}

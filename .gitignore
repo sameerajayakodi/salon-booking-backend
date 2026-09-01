@@ -1,0 +1,6 @@
+node_modules
+.env
+logs/*
+!logs/.gitkeep
+*.log
+prisma/migrations/dev.db*

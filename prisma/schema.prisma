@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model AdminUser {
+  id           Int       @id @default(autoincrement())
+  name         String    @db.VarChar(120)
+  email        String    @unique @db.VarChar(190)
+  passwordHash String    @map("password_hash") @db.VarChar(255)
+  isActive     Boolean   @default(true) @map("is_active")
+  lastLoginAt  DateTime? @map("last_login_at")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@map("admin_users")
+}
+
+model Service {
+  id          Int      @id @default(autoincrement())
+  name        String   @db.VarChar(120)
+  durationMin Int      @map("duration_min")
+  isActive    Boolean  @default(true) @map("is_active")
+  aliases     Json
+  weekly      Json
+  createdAt   DateTime @default(now()) @map("created_at")
+  updatedAt   DateTime @updatedAt @map("updated_at")
+
+  slots    Slot[]
+  bookings Booking[]
+
+  @@map("services")
+}
+
+model Slot {
+  id        Int      @id @default(autoincrement())
+  serviceId Int      @map("service_id")
+  slotDate  DateTime @map("slot_date") @db.Date
+  startMin  Int      @map("start_min")
+  endMin    Int      @map("end_min")
+  status    String   @default("OPEN") @db.VarChar(16)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  service Service  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  booking Booking?
+
+  @@unique([serviceId, slotDate, startMin], map: "slots_service_date_start_unique")
+  @@index([serviceId, slotDate, status], map: "slots_lookup_idx")
+  @@map("slots")
+}
+
+model Customer {
+  id        Int      @id @default(autoincrement())
+  phone     String   @unique @db.VarChar(32)
+  name      String?  @db.VarChar(120)
+  lang      String   @default("en") @db.VarChar(8)
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  bookings     Booking[]
+  conversation Conversation?
+
+  @@map("customers")
+}
+
+model Booking {
+  id          Int       @id @default(autoincrement())
+  customerId  Int       @map("customer_id")
+  serviceId   Int       @map("service_id")
+  slotId      Int?      @unique @map("slot_id")
+  slotDate    DateTime  @map("slot_date") @db.Date
+  startMin    Int       @map("start_min")
+  durationMin Int       @map("duration_min")
+  status      String    @db.VarChar(24)
+  source      String    @default("WHATSAPP") @db.VarChar(16)
+  cancelledAt DateTime? @map("cancelled_at")
+  createdAt   DateTime  @default(now()) @map("created_at")
+  updatedAt   DateTime  @updatedAt @map("updated_at")
+
+  customer Customer @relation(fields: [customerId], references: [id])
+  service  Service  @relation(fields: [serviceId], references: [id])
+  slot     Slot?    @relation(fields: [slotId], references: [id])
+
+  @@index([slotDate, startMin], map: "bookings_schedule_idx")
+  @@index([status], map: "bookings_status_idx")
+  @@map("bookings")
+}
+
+model Conversation {
+  id         Int      @id @default(autoincrement())
+  customerId Int      @unique @map("customer_id")
+  draft      Json
+  history    Json?
+  lang       String   @default("en") @db.VarChar(8)
+  lastIntent String?  @map("last_intent") @db.VarChar(32)
+  createdAt  DateTime @default(now()) @map("created_at")
+  updatedAt  DateTime @updatedAt @map("updated_at")
+
+  customer Customer @relation(fields: [customerId], references: [id], onDelete: Cascade)
+
+  @@map("conversations")
+}
