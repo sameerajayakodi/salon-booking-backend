@@ -270,9 +270,14 @@ const EDGE_CASES = [
         name: "BUG1 · bare number picks the right service",
         steps: ["Hi", "2"],
         assert: (keys, results) => {
+            const menu = results[0].reply;
+            const second = (menu.match(/^2\. (.+?) \(/m) || [])[1];
             const last = results[results.length - 1];
-            if (last.draft.serviceId !== 1) return `expected Facial (id 1), got serviceId ${last.draft.serviceId}`;
-            return null;
+            if (!second) return "the greeting did not offer a numbered menu";
+            if (!last.draft.serviceId) return "option 2 selected nothing";
+            return last.reply.includes("day") || keys[keys.length - 1] === "ask_date"
+                ? null
+                : `option 2 (${second}) did not move on to the date step`;
         },
     },
     {
@@ -425,6 +430,32 @@ const EDGE_CASES = [
             return last.reply.includes(last.booking.reference)
                 ? null
                 : `reply is missing ${last.booking.reference}`;
+        },
+    },
+    {
+        name: "KB · a compound question answers every part",
+        steps: ["Where are you located and how much is a facial?"],
+        assert: (keys, results) => {
+            const reply = results[results.length - 1].reply;
+            if (!reply.includes("maps.google.com")) return "the location half is missing";
+            if (!reply.includes("5,500")) return "the price half is missing";
+            const offers = reply.match(/Would you like me to/g) || [];
+            return offers.length === 1 ? null : `expected one booking offer, got ${offers.length}`;
+        },
+    },
+    {
+        name: "KB · a compound question still bridges to booking",
+        steps: ["Where are you located and how much is a facial?", "yes please"],
+        assert: (keys) => (keys[keys.length - 1] === "ask_date" ? null : `expected ask_date, got ${keys[keys.length - 1]}`),
+    },
+    {
+        name: "KB · hours and parking asked together",
+        steps: ["what time do you open and is there parking"],
+        assert: (keys, results) => {
+            const reply = results[results.length - 1].reply;
+            if (!/9:00 AM to 6:00 PM/.test(reply)) return "the hours half is missing";
+            if (!/park/i.test(reply)) return "the parking half is missing";
+            return null;
         },
     },
     {

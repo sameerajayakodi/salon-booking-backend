@@ -241,7 +241,11 @@ ${body}` : body;
 
     if (nlu.intent === INTENT.ASK && nlu.topic) {
         const about = services.find((s) => s.id === (nlu.aboutServiceId || draft.serviceId)) || null;
-        const info = topicAnswer(nlu.topic, lang, services, about);
+        const asked = Array.isArray(nlu.topics) && nlu.topics.length ? nlu.topics : [nlu.topic];
+        const answers = asked
+            .map((topic) => topicAnswer(topic, lang, services, about))
+            .filter(Boolean);
+        const info = answers.join(NEWLINE + NEWLINE);
 
         if (info) {
             const midFlow = Boolean(draft.serviceId && draft.date);
@@ -254,7 +258,7 @@ ${body}` : body;
             logger.info("Answered from the salon knowledge hub", {
                 event: "chat.concierge",
                 phone,
-                topic: nlu.topic,
+                topics: asked.join(", "),
                 about: about ? about.name : null,
                 language: lang,
             });
@@ -263,7 +267,7 @@ ${body}` : body;
                 "kb_answer",
                 { answer: info + NEWLINE + NEWLINE + offer },
                 expecting || (draft.serviceId ? "date" : "service"),
-                { topic: nlu.topic },
+                { topic: nlu.topic, topics: asked },
             );
         }
     }

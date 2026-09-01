@@ -37,6 +37,48 @@ const SERVICES = [
         aliases: ["haircut", "hair cut", "hair cut eka", "kes kapanna", "හෙයාර් කට්", "කොණ්ඩේ කපන", "කොණ්ඩ කැපීම", "முடி வெட்ட", "ஹேர்கட்"],
         weekly: weeklyFrom([540, 570, 600, 630, 660, 840, 870, 900, 930, 960]),
     },
+    {
+        name: "Hair Treatment",
+        durationMin: 60,
+        aliases: ["hair treatment", "hair spa", "hair spa eka", "keratin", "deep conditioning", "kes prathikara", "කොණ්ඩ ප්‍රතිකාර", "හෙයාර් ස්පා", "முடி சிகிச்சை", "ஹேர் ஸ்பா"],
+        weekly: weeklyFrom([540, 660, 840, 960]),
+    },
+    {
+        name: "Threading",
+        durationMin: 15,
+        aliases: ["threading", "thread", "threading eka", "eyebrow", "eyebrows", "eye brow", "upper lip", "noolen", "නූල් ගැනීම", "අයිබ්‍රෝ", "ඇහි බැම", "நூல் எடுத்தல்", "புருவம்"],
+        weekly: weeklyFrom([540, 555, 570, 585, 600, 840, 855, 870, 885, 900, 915, 930]),
+    },
+    {
+        name: "Manicure",
+        durationMin: 45,
+        aliases: ["manicure", "manicure eka", "hand nails", "nail polish", "athe niyapothu", "මැනික්‍යෝර්", "අත් නියපොතු", "மேனிக்யூர்", "கை நகம்"],
+        weekly: weeklyFrom([540, 630, 840, 930]),
+    },
+    {
+        name: "Pedicure",
+        durationMin: 60,
+        aliases: ["pedicure", "pedicure eka", "foot care", "feet", "kakule niyapothu", "පෙඩික්‍යෝර්", "පාද සත්කාර", "பெடிக்யூர்", "கால் பராமரிப்பு"],
+        weekly: weeklyFrom([540, 660, 840, 960]),
+    },
+    {
+        name: "Waxing",
+        durationMin: 45,
+        aliases: ["waxing", "wax", "wax eka", "full arms", "full legs", "වැක්සින්", "වැක්ස්", "மெழுகு", "வாக்ஸிங்"],
+        weekly: weeklyFrom([540, 630, 840, 930]),
+    },
+    {
+        name: "Bridal Makeup",
+        durationMin: 180,
+        aliases: ["bridal", "bridal makeup", "wedding makeup", "bride", "manali", "මනාලි සැරසීම", "මනාලි", "විවාහ මේකප්", "மணப்பெண்", "மணமகள் ஒப்பனை"],
+        weekly: weeklyFrom([540, 840]),
+    },
+    {
+        name: "Party Makeup",
+        durationMin: 60,
+        aliases: ["party makeup", "makeup", "make up", "make-up", "occasion makeup", "evening makeup", "මේකප්", "සාද මේකප්", "ஒப்பனை", "மேக்கப்"],
+        weekly: weeklyFrom([600, 660, 900, 960]),
+    },
 ];
 
 // Rich Sri Lankan Customers covering all 4 language types (si, sien, ta, en)
@@ -101,6 +143,18 @@ const DEMO_BOOKINGS = [
     { customerIndex: 9, serviceIndex: 1, dayOffset: 4, startMin: 660, source: "WHATSAPP" }, // Hansi Wickramasinghe (sien) - Hair Colouring (11:00 AM)
     { customerIndex: 14, serviceIndex: 2, dayOffset: 4, startMin: 885, source: "MANUAL" },  // Pavithra Selvam (ta) - Cleanup (02:45 PM)
     { customerIndex: 19, serviceIndex: 3, dayOffset: 4, startMin: 930, source: "WHATSAPP" }, // Minoli Ratnayake (en) - Haircut (03:30 PM)
+
+    // The newer treatments, spread across the week
+    { customerIndex: 2, serviceIndex: 5, dayOffset: 0, startMin: 555, source: "WHATSAPP" },  // Sachini Jayasuriya (si) - Threading (09:15 AM)
+    { customerIndex: 12, serviceIndex: 6, dayOffset: 0, startMin: 840, source: "MANUAL" },   // Anushiya Sivakumar (ta) - Manicure (02:00 PM)
+    { customerIndex: 7, serviceIndex: 4, dayOffset: 1, startMin: 540, source: "WHATSAPP" },  // Oshadi Ranasinghe (sien) - Hair Treatment (09:00 AM)
+    { customerIndex: 17, serviceIndex: 7, dayOffset: 1, startMin: 960, source: "WHATSAPP" }, // Natalie De Kauwe (en) - Pedicure (04:00 PM)
+    { customerIndex: 4, serviceIndex: 8, dayOffset: 2, startMin: 630, source: "MANUAL" },    // Kaveesha Samaranayake (si) - Waxing (10:30 AM)
+    { customerIndex: 9, serviceIndex: 9, dayOffset: 2, startMin: 540, source: "WHATSAPP" },  // Hansi Wickramasinghe (sien) - Bridal Makeup (09:00 AM)
+    { customerIndex: 14, serviceIndex: 10, dayOffset: 3, startMin: 660, source: "WHATSAPP" }, // Pavithra Selvam (ta) - Party Makeup (11:00 AM)
+    { customerIndex: 18, serviceIndex: 5, dayOffset: 3, startMin: 870, source: "MANUAL" },   // Shenelle Rodrigo (en) - Threading (02:30 PM)
+    { customerIndex: 6, serviceIndex: 6, dayOffset: 4, startMin: 930, source: "WHATSAPP" },  // Tharushi Jayawardena (sien) - Manicure (03:30 PM)
+    { customerIndex: 13, serviceIndex: 4, dayOffset: 4, startMin: 660, source: "WHATSAPP" }, // Thivya Tharmalingam (ta) - Hair Treatment (11:00 AM)
 ];
 
 // Sample multi-turn conversation histories in authentic Sri Lankan languages

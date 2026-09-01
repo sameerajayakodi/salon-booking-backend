@@ -533,12 +533,27 @@ function isBookingNudge(text) {
     return BOOKING_NUDGES.some((phrase) => haystack.includes(phrase));
 }
 
-function matchTopic(text) {
+const MAX_TOPICS = 3;
+
+function matchTopics(text) {
     const haystack = text.toLowerCase();
+    const hits = [];
+
     for (const entry of TOPIC_PATTERNS) {
-        if (entry.phrases.some((phrase) => haystack.includes(phrase))) return entry.topic;
+        let at = -1;
+        for (const phrase of entry.phrases) {
+            const found = haystack.indexOf(phrase);
+            if (found !== -1 && (at === -1 || found < at)) at = found;
+        }
+        if (at !== -1) hits.push({ topic: entry.topic, at });
     }
-    return null;
+
+    return hits.sort((a, b) => a.at - b.at).slice(0, MAX_TOPICS).map((hit) => hit.topic);
+}
+
+function matchTopic(text) {
+    const topics = matchTopics(text);
+    return topics.length ? topics[0] : null;
 }
 
 const CHANGE_REQUESTS = [
@@ -589,11 +604,12 @@ function rulesPass(text, draft, services, expecting) {
     const ordinal = matchOrdinal(text);
     if (ordinal !== null) result.ordinal = ordinal;
 
-    const topic = matchTopic(text);
-    if (topic) {
+    const topics = matchTopics(text);
+    if (topics.length) {
         const about = matchService(text, services);
         result.intent = INTENT.ASK;
-        result.topic = topic;
+        result.topic = topics[0];
+        result.topics = topics;
         result.resolved = true;
         if (about) result.aboutServiceId = about.id;
         return result;
@@ -1089,6 +1105,7 @@ module.exports = {
     matchInlineName,
     isServiceQuery,
     matchTopic,
+    matchTopics,
     isBookingNudge,
     isPriceQuery,
     matchChangeRequest,
