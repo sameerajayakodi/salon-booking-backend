@@ -62,7 +62,7 @@ function validateEnv() {
             apiKey: process.env.GEMINI_API_KEY || null,
             model: process.env.GEMINI_MODEL || "gemini-2.5-flash",
             timeoutMs: Number(process.env.GEMINI_TIMEOUT_MS || 8000),
-            thinkingLevel: process.env.GEMINI_THINKING_LEVEL || "low",
+            thinkingLevel: process.env.GEMINI_THINKING_LEVEL || null,
         },
 
         chat: {
