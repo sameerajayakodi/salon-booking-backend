@@ -383,8 +383,11 @@ function looksLikeName(text) {
     if (!trimmed || /\d/.test(trimmed)) return false;
     if (isGreeting(trimmed.toLowerCase().replace(/[.!?]+$/, ""))) return false;
     if (isServiceQuery(trimmed)) return false;
+    if (matchTopics(trimmed).length > 0) return false;
     const words = trimmed.split(/\s+/);
     if (words.length > 3 || trimmed.length > 40) return false;
+    const parts = trimmed.toLowerCase().split(/\s+/);
+    if (parts.some((w) => NAME_STOPWORDS.has(w))) return false;
     return /^[\p{L}\p{M}\s.'-]+$/u.test(trimmed);
 }
 
@@ -400,8 +403,9 @@ const NAME_LEAD_INS = [
 const NAME_STOPWORDS = new Set([
     "a", "an", "the", "me", "my", "us", "you", "her", "him", "them", "myself",
     "today", "tomorrow", "morning", "afternoon", "evening", "night", "now",
-    "one", "two", "three", "please", "sure", "ok", "appointment", "booking",
+    "one", "two", "three", "please", "plz", "sure", "ok", "appointment", "booking",
     "slot", "time", "date", "salon", "service", "pm", "am",
+    "location", "parking", "price", "prices", "cost", "hours", "address", "directions",
     "something", "anything", "some", "sort", "out", "in", "at", "on", "to", "and",
 ]);
 
@@ -492,7 +496,7 @@ const TOPIC_PATTERNS = [
     { topic: "price", phrases: PRICE_PATTERNS },
     { topic: "location", phrases: [
         "where are you", "where r u", "where is the salon", "where is your salon",
-        "where exactly", "your location", "the location", "salon location",
+        "where exactly", "your location", "the location", "salon location", "location",
         "address", "adress", "directions", "direction", "how to get there",
         "how do i get", "how can i get", "how to come", "how do i come",
         "find you", "find the salon", "google map", "google maps", "map link",
